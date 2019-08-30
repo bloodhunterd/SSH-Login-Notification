@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# Get script directory path
-DIR=$(dirname "$(readlink -f "$0")")
+# Get path to script directory
+if [ -n "${BASH_SOURCE[0]}" ]; then
+  DIR=$(dirname "${BASH_SOURCE[0]}")
+elif [ -n "${0}" ]; then
+  DIR=$(dirname "$(readlink -f "$0")")
+fi
 
 # Include config
 . "${DIR}/ssh_login_notification.conf"
@@ -25,4 +29,4 @@ Time: $(date +%d.%m.%Y) $(date +%H:%M)
 MAIL
 
 # Send mail
-echo "${MAIL}" | mailx -s "${SUBJECT}" ${RECEIVER}
+echo "${MAIL}" | mailx -s "${SUBJECT}" "${RECEIVER}"
