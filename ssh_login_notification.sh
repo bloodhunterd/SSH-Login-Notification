@@ -19,8 +19,8 @@ DNS=$(nslookup "${IP}" | grep "name =" | cut -d " " -f 3)
 read -r -d '' MAIL <<MAIL
 ${MESSAGE}
 
-User: ${USER}
 Server: $(hostname)
+User: ${USER}
 Port: ${PORT}
 
 IP: ${IP}
