@@ -1,15 +1,28 @@
 #!/bin/bash
 
+# Get script directory path
+DIR=$(dirname "$(readlink -f "$0")")
+
+# Include config
+. "${DIR}/ssh_login_notification.conf"
+
+# Collect information
 IP=$(echo "${SSH_CONNECTION}" | cut -d " " -f 1)
 PORT=$(echo "${SSH_CONNECTION}" | cut -d " " -f 4)
 DNS=$(nslookup "${IP}" | grep "name =" | cut -d " " -f 3)
 
-echo "SSH login detected."
-echo
-echo "User: ${USER}"
-echo "Server: $(hostname)"
-echo "Port: ${PORT}"
-echo
-echo "IP: ${IP}"
-echo "DNS: ${DNS}"
-echo "Time: $(date +%d.%m.%Y) $(date +%H:%M)"
+# Prepare mail
+read -r -d '' MAIL <<MAIL
+${MESSAGE}
+
+User: ${USER}
+Server: $(hostname)
+Port: ${PORT}
+
+IP: ${IP}
+DNS: ${DNS}
+Time: $(date +%d.%m.%Y) $(date +%H:%M)
+MAIL
+
+# Send mail
+echo "${MAIL}" | mailx -s "${SUBJECT}" ${RECEIVER}
