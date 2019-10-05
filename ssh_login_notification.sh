@@ -20,8 +20,8 @@ read -r -d '' MAIL <<MAIL
 ${MESSAGE}
 
 Server: $(hostname)
-User: ${USER}
 Port: ${PORT}
+User: ${USER}
 
 IP: ${IP}
 DNS: ${DNS}
