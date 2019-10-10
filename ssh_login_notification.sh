@@ -11,21 +11,28 @@ fi
 . "${DIR}/ssh_login_notification.conf"
 
 # Collect information
-IP=$(echo "${SSH_CONNECTION}" | cut -d " " -f 1)
-PORT=$(echo "${SSH_CONNECTION}" | cut -d " " -f 4)
-DNS=$(nslookup "${IP}" | grep "name =" | cut -d " " -f 3)
+TIME="$(date +%d.%m.%Y) $(date +%H:%M)"
+SERVER_NAME="$(hostname -s)"
+SERVER_IP="$(hostname -i)"
+SERVER_PORT="$(echo "${SSH_CONNECTION}" | cut -d " " -f 4)"
+SERVER_FQDN="$(hostname -f)"
+CLIENT_IP="$(echo "${SSH_CONNECTION}" | cut -d " " -f 1)"
+CLIENT_FQDN="$(nslookup "${CLIENT_IP}" | grep "name =" | cut -d " " -f 3)"
 
 # Prepare mail
 read -r -d '' MAIL <<MAIL
 ${MESSAGE}
 
-Server: $(hostname)
-Port: ${PORT}
+⌚ ${TIME}
+Server: ${SERVER_NAME}
 User: ${USER}
 
-IP: ${IP}
-DNS: ${DNS}
-Time: $(date +%d.%m.%Y) $(date +%H:%M)
+Server IP: ${SERVER_IP}
+Server Port: ${SERVER_PORT}
+Server FQDN: ${SERVER_FQDN}
+
+Client IP: ${CLIENT_IP}
+Client FQDN: ${CLIENT_FQDN}
 MAIL
 
 # Send mail
