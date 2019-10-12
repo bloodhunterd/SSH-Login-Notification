@@ -23,7 +23,7 @@ CLIENT_FQDN="$(nslookup "${CLIENT_IP}" | grep "name =" | cut -d " " -f 3)"
 read -r -d '' MAIL <<MAIL
 ${MESSAGE}
 
-⌚ ${TIME}
+Time: ${TIME}
 Server: ${SERVER_NAME}
 User: ${USER}
 
