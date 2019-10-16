@@ -1,22 +1,26 @@
 # SSH Login Notification
 
-A script which sends a notification via email on every SSH login.
+[![Release](https://img.shields.io/github/v/release/bloodhunterd/ssh-login-notification?include_prereleases&style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/releases)
+
+A simple script which sends a notification via email on every SSH login.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
-To run this script you need a debian based system or equivalent and also Bash, Mailutils and dnsutils installed. A working MTA like [Exim](https://www.exim.org/) or equivalent is needed to send emails.
+The script requires a [Debian](https://www.debian.org/index.de.html) based system, Mailutils and dnsutils installed.
+A configured and working MTA like [Exim](https://www.exim.org/) or equivalent is also required to send mails.
 
 ### Installing
 
-Place this script and the configuration file into the **/etc/profile.d** folder.
+Place the script and the configuration file into the **/etc/profile.d** folder.
 
 ## Deployment
 
-The script is directly running without restarting any services or the server.
+The script works instantly without restarting any services or the server.
 
 ## Build With
 
