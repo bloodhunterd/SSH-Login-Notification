@@ -1,6 +1,7 @@
 # SSH Login Notification
 
-[![Release](https://img.shields.io/github/v/release/bloodhunterd/ssh-login-notification?include_prereleases&style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/releases)
+[![Release](https://img.shields.io/github/v/release/bloodhunterd/ssh-login-notification?style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/releases)
+[![License](https://img.shields.io/github/license/bloodhunterd/ssh-login-notification?style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/blob/master/LICENSE)
 
 A simple script which sends a notification via email on every SSH login.
 
