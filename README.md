@@ -37,4 +37,4 @@ The script works instantly without restarting any services or the server.
 
 ## License
 
-This project is licensed under the Unlicense License - see [LICENSE.md](https://github.com/bloodhunterd/ssh-login-notification/blob/master/LICENSE) file for details.
+This project is licensed under the MIT - see [LICENSE.md](https://github.com/bloodhunterd/ssh-login-notification/blob/master/LICENSE) file for details.
