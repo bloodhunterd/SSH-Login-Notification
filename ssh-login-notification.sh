@@ -8,7 +8,7 @@ elif [ -n "${0}" ]; then
 fi
 
 # Include config
-. "${DIR}/ssh_login_notification.conf"
+. "${DIR}/ssh-login-notification.conf"
 
 # Collect information
 TIME="$(date +%d.%m.%Y) $(date +%H:%M)"

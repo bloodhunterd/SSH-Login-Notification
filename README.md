@@ -1,35 +1,43 @@
 # SSH Login Notification
 
-[![Release](https://img.shields.io/github/v/release/bloodhunterd/ssh-login-notification?include_prereleases&style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/releases)
-[![License](https://img.shields.io/github/license/bloodhunterd/ssh-login-notification?style=for-the-badge)](https://github.com/bloodhunterd/ssh-login-notification/blob/master/LICENSE)
+[![Release](https://img.shields.io/github/v/release/bloodhunterd/SSH-Login-Notification?include_prereleases&style=for-the-badge)](https://github.com/bloodhunterd/SSH-Login-Notification/releases)
+[![License](https://img.shields.io/github/license/bloodhunterd/SSH-Login-Notification?style=for-the-badge)](https://github.com/bloodhunterd/SSH-Login-Notification/blob/master/LICENSE)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bloodhunterd)
 
-A simple script which sends a notification via email on every SSH login.
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-The script requires a [Debian](https://www.debian.org/index.de.html) based system, Mailutils and dnsutils installed.
-A configured and working MTA like [Exim](https://www.exim.org/) or equivalent is also required to send mails.
-
-### Installing
-
-Place the script and the configuration file into the **/etc/profile.d** folder.
+The script makes sure that you are notified by email about every user login via SSH.
 
 ## Deployment
 
-The script works instantly without restarting any services or the server.
+The script `ssh-login-notification.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on via SSH.
 
-## Build With
+### Requirements
 
-* [Bash](https://wiki.ubuntuusers.de/Bash/)
-* [Mailutils](https://mailutils.org/) - To send email notifications
-* [dnsutils](https://packages.debian.org/de/buster/dnsutils) - To resolve IP's
+If not already installed, the `dnsutils` and `mailutils` packages are needed to resolve IP to FQDN and send emails. It is assumed that a working MTA like [Exim](https://www.exim.org/) is installed.
+
+## Configuration
+
+The script need to be customized. All that is required is to create a file with the name `ssh-login-notification.conf`.
+
+Please configure the following settings:
+
+| Setting | Description
+| ------- | -----------
+| MESSAGE | A message that describes what happened.
+| RECEIVER | Any valid email address.
+| SUBJECT | A meaningful email subject.
+
+### Example
+
+~~~shell
+MESSAGE="An SSH login was detected."
+RECEIVER="example@example.com"
+SUBJECT="SSH Login"
+~~~
+
+## Update
+
+Please note the [changelog](https://github.com/bloodhunterd/SSH-Login-Notification/blob/master/CHANGELOG.md) to check for configuration changes before updating.
 
 ## Authors
 
@@ -37,4 +45,7 @@ The script works instantly without restarting any services or the server.
 
 ## License
 
-This project is licensed under the MIT - see [LICENSE.md](https://github.com/bloodhunterd/ssh-login-notification/blob/master/LICENSE) file for details.
+This project is licensed under the MIT - see [LICENSE.md](https://github.com/bloodhunterd/SSH-Login-Notification/blob/master/LICENSE) file for details.
+
+*[MTA]: Mail Transport Agent
+*[SSH]: Secure Shell
