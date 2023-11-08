@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This file ist part of the MotD project, see https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification.
+# © 2023 by BloodhunterD <bloodhunterd@bloodhunterd.com>
+
 # Get path to script directory
 if [ -n "${BASH_SOURCE[0]}" ]; then
   DIR=$(dirname "${BASH_SOURCE[0]}")
