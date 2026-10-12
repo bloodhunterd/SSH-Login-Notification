@@ -7,9 +7,11 @@ The script makes sure that you are notified by email and/or webhook about every 
 
 ## Deployment
 
-The script `ssh-login-notification.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time the user logs on via SSH.
+The script `ssh-login-notification.sh` only needs to be placed under `/etc/profile.d/` so that it is executed every time a user logs in via SSH. The configuration file `ssh-login-notification.conf` must be placed in the same directory.
 
 ### Requirements
+
+The script requires Bash as login shell.
 
 If not already installed, the `dnsutils` package is needed to resolve IP to FQDN.
 
@@ -19,7 +21,7 @@ For webhook notifications the `curl` package is needed.
 
 ## Configuration
 
-The script need to be customized. All that is required is to create a file with the name `ssh-login-notification.conf`.
+The script needs to be configured. All that is required is to create a file named `ssh-login-notification.conf` next to the script.
 
 Please configure the following settings:
 
@@ -27,10 +29,10 @@ Please configure the following settings:
 |----------------------|---------------------------------------------------------------------|------------------------|
 | MESSAGE              | A message that describes what happened.                             |                        |
 | MAIL_ENABLED         | Send email notification (`true` or `false`).                        | `true`                 |
-| RECEIVER             | Any valid email address.                                            |                        |
-| SUBJECT              | A meaningful email subject.                                         |                        |
+| RECEIVER             | Any valid email address. Only used for email.                       |                        |
+| SUBJECT              | A meaningful email subject. Only used for email and as placeholder. |                        |
 | WEBHOOK_ENABLED      | Send webhook notification (`true` or `false`).                      | `false`                |
-| WEBHOOK_URL          | The webhook URL.                                                    |                        |
+| WEBHOOK_URL          | The webhook URL. Required if webhook is enabled.                    |                        |
 | WEBHOOK_METHOD       | The HTTP method.                                                    | `POST`                 |
 | WEBHOOK_CONTENT_TYPE | The content type of the payload.                                    | `application/json`     |
 | WEBHOOK_HEADERS      | Optional array of additional HTTP headers.                          |                        |
@@ -42,19 +44,19 @@ Email and webhook can be enabled independently, so either one or both are used.
 
 The following placeholders are replaced in `WEBHOOK_TEMPLATE`. The values are escaped for use inside JSON strings.
 
-| Placeholder       | Description                                |
-|-------------------|--------------------------------------------|
-| `{{TEXT}}`        | The complete notification text (as email). |
-| `{{MESSAGE}}`     | The configured message.                    |
-| `{{SUBJECT}}`     | The configured subject.                    |
-| `{{TIME}}`        | Date and time of the login.                |
-| `{{USER}}`        | The logged in user.                        |
-| `{{SERVER_NAME}}` | Short hostname of the server.              |
-| `{{SERVER_IP}}`   | IP address of the server.                  |
-| `{{SERVER_PORT}}` | SSH port of the server.                    |
-| `{{SERVER_FQDN}}` | FQDN of the server.                        |
-| `{{CLIENT_IP}}`   | IP address of the client.                  |
-| `{{CLIENT_FQDN}}` | FQDN of the client.                        |
+| Placeholder       | Description                                              |
+|-------------------|----------------------------------------------------------|
+| `{{TEXT}}`        | The complete notification text (same as the email body). |
+| `{{MESSAGE}}`     | The configured message.                                  |
+| `{{SUBJECT}}`     | The configured subject.                                  |
+| `{{TIME}}`        | Date and time of the login.                              |
+| `{{USER}}`        | The logged in user.                                      |
+| `{{SERVER_NAME}}` | Short hostname of the server.                            |
+| `{{SERVER_IP}}`   | IP address of the server.                                |
+| `{{SERVER_PORT}}` | SSH port of the server.                                  |
+| `{{SERVER_FQDN}}` | FQDN of the server.                                      |
+| `{{CLIENT_IP}}`   | IP address of the client.                                |
+| `{{CLIENT_FQDN}}` | FQDN of the client.                                      |
 
 ### Examples
 
@@ -103,12 +105,12 @@ Please note the [changelog](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login
 
 ## License
 
-This project is licensed under the MIT - see [LICENSE.md](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification/-/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification/-/blob/master/LICENSE) file for details.
 
 ## Funding
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bloodhunterd)
 
 *[FQDN]: Fully Qualified Domain Name
-*[MTA]: Mail Transport Agent
+*[MTA]: Mail Transfer Agent
 *[SSH]: Secure Shell

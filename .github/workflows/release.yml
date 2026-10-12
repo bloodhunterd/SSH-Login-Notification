@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to create a release for'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          git rev-parse --verify --quiet "refs/tags/${TAG}" >/dev/null || { echo "Tag ${TAG} not found"; exit 1; }
+
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists"
+            exit 0
+          fi
+
+          # Release notes from the changelog section of this version
+          awk -v tag="${TAG}" '
+            /^<a name=/ { if (found) exit }
+            index($0, "## [" tag "]") == 1 { found = 1; next }
+            found { print }
+          ' CHANGELOG.md | sed '/./,$!d' > notes.md
+          if [ ! -s notes.md ]; then
+            echo "See [CHANGELOG.md](CHANGELOG.md)." > notes.md
+          fi
+
+          # Script of this version (renamed in 1.1.0)
+          git show "${TAG}:ssh-login-notification.sh" > ssh-login-notification.sh 2>/dev/null \
+            || git show "${TAG}:ssh_login_notification.sh" > ssh-login-notification.sh
+
+          gh release create "${TAG}" --verify-tag --title "${TAG}" --notes-file notes.md ssh-login-notification.sh
