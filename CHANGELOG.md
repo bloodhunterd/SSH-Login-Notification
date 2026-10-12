@@ -17,3 +17,14 @@ All notable changes will be documented in this file.
 ## [1.1.0](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification/-/releases/1.1.0) &#9839; 31.05.2021
 
 * Renamed script and configuration file name
+
+<a name="v1.0.0"></a>
+## [1.0.0](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification/-/releases/1.0.0) &#9839; 12.10.2019
+
+* Added more information and reordered it
+* Minor fixes
+
+<a name="v0.1.0"></a>
+## [0.1.0](https://gitlab.com/bloodhunterd-labs/tools/SSH-Login-Notification/-/releases/0.1.0) &#9839; 05.10.2019
+
+* Initial release: email notification on SSH login with separate configuration file
