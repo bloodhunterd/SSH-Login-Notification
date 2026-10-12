@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Existing tag to create a release for'
+        description: 'Tag to create a release for (created on the default branch if missing)'
         required: true
 
 permissions:
@@ -32,11 +32,20 @@ jobs:
         run: |
           set -euo pipefail
 
-          git rev-parse --verify --quiet "refs/tags/${TAG}" >/dev/null || { echo "Tag ${TAG} not found"; exit 1; }
-
           if gh release view "${TAG}" >/dev/null 2>&1; then
             echo "Release ${TAG} already exists"
             exit 0
+          fi
+
+          # Create a missing tag on the default branch (manual runs only)
+          TARGET=""
+          if ! git rev-parse --verify --quiet "refs/tags/${TAG}" >/dev/null; then
+            if [ "${GITHUB_EVENT_NAME}" != "workflow_dispatch" ]; then
+              echo "Tag ${TAG} not found"
+              exit 1
+            fi
+            TARGET="$(git rev-parse HEAD)"
+            git tag "${TAG}" "${TARGET}"
           fi
 
           # Release notes from the changelog section of this version
@@ -53,4 +62,8 @@ jobs:
           git show "${TAG}:ssh-login-notification.sh" > ssh-login-notification.sh 2>/dev/null \
             || git show "${TAG}:ssh_login_notification.sh" > ssh-login-notification.sh
 
-          gh release create "${TAG}" --verify-tag --title "${TAG}" --notes-file notes.md ssh-login-notification.sh
+          if [ -n "${TARGET}" ]; then
+            gh release create "${TAG}" --target "${TARGET}" --title "${TAG}" --notes-file notes.md ssh-login-notification.sh
+          else
+            gh release create "${TAG}" --verify-tag --title "${TAG}" --notes-file notes.md ssh-login-notification.sh
+          fi
